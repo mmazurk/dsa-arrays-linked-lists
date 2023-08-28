@@ -110,8 +110,6 @@ class LinkedList {
 
   /** setAt(idx, val): set val at idx to val */
 
-  // Node1 -> Node2 -> Node3 -> Node4
-
   setAt(idx, val) {
     let newNode = new Node(val);
 
@@ -146,11 +144,74 @@ class LinkedList {
 
   /** insertAt(idx, val): add node w/val before idx. */
 
-  insertAt(idx, val) {}
+  // Node1 -> Node2 -> Node3 -> Node4
+  // 0        1        2        3
+  //          Node2 --> newNode --> Node3 --> Node4
+  // Insert at 2
+  // idx === 2
+  // when num === 1
+
+  insertAt(idx, val) {
+    let newNode = new Node(val);
+    if (!this.head) {
+      throw new Error("LinkedList is empty")
+    }
+    if (idx <= 0 || idx > this.length - 1) {
+      throw new Error("Value out of range");
+    } else {
+      let currentNode = this.head;
+      let num = 0;
+      while (currentNode) {
+        if(num === idx - 1) {
+          newNode.next = currentNode.next;
+          currentNode.next = newNode;
+          this.length += 1;
+        }
+        num ++; 
+        currentNode = currentNode.next
+      }
+    } return this;
+  }
 
   /** removeAt(idx): return & remove item at idx, */
+  // Node1 -> Node2 -> Node3 -> Node4
+  // 0        1        2        3
+  // * 
+  // Set Node2 as this.head
 
-  removeAt(idx) {}
+  //          * 
+  // When num is 0, set Node1.next to Node3
+
+  //                   *
+  // When num is 1, set Node2.next to Node4
+
+  //                            *
+  // Set Node3 as this.tail
+
+  removeAt(idx) {
+    if (!this.head) {
+      throw new Error("LinkedList is empty")
+    }
+    if (idx < 0 || idx > this.length - 1) {
+      throw new Error("Value out of range");
+    } else if (idx === 0){
+      this.head = this.head.next
+    } else {
+      let currentNode = this.head;
+      let num = 0;
+      while (currentNode) {
+        if(num === idx - 1 && currentNode.next !== this.tail) {
+        currentNode.next = currentNode.next.next
+        } 
+        if(num === idx - 1 && currentNode.next === this.tail) {
+          this.tail = currentNode
+        }
+        num ++; 
+        currentNode = currentNode.next
+      }
+    }
+
+  }
 
   /** average(): return an average of all values in the list */
 
